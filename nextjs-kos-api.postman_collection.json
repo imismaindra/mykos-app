@@ -1,0 +1,116 @@
+{
+    "info": {
+        "name": "Next.js Kos API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Kost",
+            "item": [
+                {
+                    "name": "GET - List Semua Kos",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/kos",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "kos"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Tambah Kos",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nama\": \"Kos Mawar\",\n  \"alamat\": \"Jl. Melati 123\",\n  \"harga\": 750000\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/kos",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "kos"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Kamar",
+            "item": [
+                {
+                    "name": "GET - List Kamar by Kos",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/kos/{{kosUuid}}/kamar",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "kos",
+                                "{{kosUuid}}",
+                                "kamar"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Tambah Kamar",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nomor\": \"A1\",\n  \"harga\": 500000,\n  \"status\": \"kosong\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/kos/{{kosUuid}}/kamar",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "kos",
+                                "{{kosUuid}}",
+                                "kamar"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

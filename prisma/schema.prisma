@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(penyewa)
+  penyewa   Penyewa?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Kos {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  name      String
+  address   String
+  city      String
+  description String?
+  kamar     Kamar[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Kamar {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  kosId     Int
+  kos       Kos      @relation(fields: [kosId], references: [id])
+  number    String
+  size      String?
+  price     Decimal
+  status    StatusKamar @default(kosong)
+  sewa      Sewa[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Penyewa {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  phone     String?
+  ktp       String?
+  sewa      Sewa[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sewa {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique @default(uuid())
+  kamarId    Int
+  kamar      Kamar    @relation(fields: [kamarId], references: [id])
+  penyewaId  Int
+  penyewa    Penyewa  @relation(fields: [penyewaId], references: [id])
+  startDate  DateTime
+  endDate    DateTime
+  status     StatusSewa @default(pending)
+  pembayaran Pembayaran[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Pembayaran {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  sewaId    Int
+  sewa      Sewa     @relation(fields: [sewaId], references: [id])
+  amount    Decimal
+  dueDate   DateTime
+  paidDate  DateTime?
+  status    StatusBayar @default(belum_lunas)
+  method    MetodeBayar @default(cash)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  superadmin
+  admin
+  penyewa
+}
+
+enum StatusKamar {
+  kosong
+  terisi
+}
+
+enum StatusSewa {
+  aktif
+  selesai
+  pending
+}
+
+enum StatusBayar {
+  lunas
+  belum_lunas
+}
+
+enum MetodeBayar {
+  cash
+  transfer
+  gateway
+}
