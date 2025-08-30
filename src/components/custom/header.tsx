@@ -1,0 +1,53 @@
+import { Button } from "@/components/ui/button";
+import { Home, Phone } from "lucide-react";
+
+export function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Home className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold text-primary">KosanKu</span>
+        </div>
+
+        <nav className="hidden md:flex items-center space-x-6">
+          <a
+            href="#home"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Beranda
+          </a>
+          <a
+            href="#features"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Fasilitas
+          </a>
+          <a
+            href="#location"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Lokasi
+          </a>
+          <a
+            href="#pricing"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Harga
+          </a>
+          <a
+            href="#contact"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Kontak
+          </a>
+        </nav>
+
+        <Button className="bg-primary hover:bg-primary/90">
+          <Phone className="mr-2 h-4 w-4" />
+          Hubungi Kami
+        </Button>
+      </div>
+    </header>
+  );
+}
