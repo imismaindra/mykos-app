@@ -48,15 +48,10 @@ export function Header() {
             <Phone className="mr-2 h-4 w-4" />
             Hubungi Kami
           </Button>
-          <Link href="/login">
-            <Button
-              variant="outline"
-              className="bg-primary hover:bg-primary/90"
-            >
-              <LogIn className="mr-2 h-4 w-4" />
-              Masuk
-            </Button>
-          </Link>
+          <Button className="bg-primary hover:bg-primary/90">
+            <LogIn className="mr-2 h-4 w-4" />
+            <Link href="/auth/login">Masuk</Link>
+          </Button>
         </div>
       </div>
     </header>
