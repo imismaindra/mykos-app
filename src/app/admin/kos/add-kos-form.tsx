@@ -1,31 +1,67 @@
 "use client"
 
-import { useState } from "react"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useState } from "react"
+
+// Validasi pakai Zod
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Nama kos minimal 2 huruf" }),
+  address: z.string().min(5, { message: "Alamat wajib diisi" }),
+  city: z.string().min(2, { message: "Kota wajib diisi" }),
+  type: z.enum(["putra", "putri", "campur"])
+})
 
 export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
-  const [name, setName] = useState("")
-  const [address, setAddress] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      address: "",
+      city: "",
+      type: "putra",
+    },
+  })
 
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     const res = await fetch("/api/kos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, address }),
+      body: JSON.stringify(values),
     })
-
     setLoading(false)
 
     if (res.ok) {
-      setName("")
-      setAddress("")
+      form.reset()
       onSuccess()
     } else {
       alert("Gagal menambahkan kos")
@@ -41,29 +77,83 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
         <DialogHeader>
           <DialogTitle>Tambah Kos</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Nama Kos</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Nama kos */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nama Kos</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Kos Ceria" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="address">Alamat Lengkap</Label>
-            <Input
-              id="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
+
+            {/* Alamat */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Alamat Lengkap</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Jl. Kapasan No.xx RT00 RW00" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Menyimpan..." : "Simpan"}
-          </Button>
-        </form>
+
+            {/* Kota */}
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kota</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Surabaya" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Tipe Kos */}
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipe Kos</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih tipe kos" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="putra">Putra</SelectItem>
+                      <SelectItem value="putri">Putri</SelectItem>
+                      <SelectItem value="campur">Campur</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" disabled={loading}>
+              {loading ? "Menyimpan..." : "Simpan"}
+            </Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
