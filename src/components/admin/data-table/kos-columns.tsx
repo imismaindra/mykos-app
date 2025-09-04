@@ -20,7 +20,7 @@ export type Kos = {
   updatedAt: string
 }
 
-export const columns: ColumnDef<Kos>[] = [
+export const kosColumns: ColumnDef<Kos>[] = [
   {
     accessorKey: "name",
     header: "Nama Kos",
@@ -32,18 +32,14 @@ export const columns: ColumnDef<Kos>[] = [
   {
     accessorKey: "createdAt",
     header: "Dibuat",
-    cell: ({ row }) => {
-      const date = new Date(row.original.createdAt)
-      return date.toLocaleDateString("id-ID")
-    },
+    cell: ({ row }) =>
+      new Date(row.original.createdAt).toLocaleDateString("id-ID"),
   },
   {
     accessorKey: "updatedAt",
     header: "Diubah",
-    cell: ({ row }) => {
-      const date = new Date(row.original.updatedAt)
-      return date.toLocaleDateString("id-ID")
-    },
+    cell: ({ row }) =>
+      new Date(row.original.updatedAt).toLocaleDateString("id-ID"),
   },
   {
     id: "actions",
@@ -66,15 +62,9 @@ export const columns: ColumnDef<Kos>[] = [
               Salin Nama Kos
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => alert(`Lihat detail kos ${kos.name}`)}>
-              Lihat Detail
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => alert(`Edit kos ${kos.name}`)}>
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">
-              Hapus
-            </DropdownMenuItem>
+            <DropdownMenuItem>Lihat Detail</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600">Hapus</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

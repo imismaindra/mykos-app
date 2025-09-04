@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { DataTable } from "./data-table"
-import { columns, Kos } from "./column"
+import { DataTable } from "@/components/admin/data-table/data-table"
+import { kosColumns, Kos } from "@/components/admin/data-table/kos-columns"
 import { AddKosForm } from "./add-kos-form"
 
 export default function KosPage() {
@@ -30,7 +30,7 @@ export default function KosPage() {
         <AddKosForm onSuccess={fetchData} />
       </div>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={kosColumns} data={data} searchPlaceholder="Cari kos..." />
     </div>
   )
 }

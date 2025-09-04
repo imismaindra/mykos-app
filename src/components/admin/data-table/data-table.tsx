@@ -23,11 +23,13 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  searchPlaceholder?: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  searchPlaceholder = "Cari data...",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = useState("")
 
@@ -45,7 +47,7 @@ export function DataTable<TData, TValue>({
     <div className="space-y-4">
       {/* Search bar */}
       <Input
-        placeholder="Cari kos..."
+        placeholder={searchPlaceholder}
         value={globalFilter ?? ""}
         onChange={(e) => setGlobalFilter(e.target.value)}
         className="max-w-sm"
