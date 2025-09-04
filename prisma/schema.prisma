@@ -25,7 +25,7 @@ model Kos {
   name      String
   address   String
   city      String
-  description String?
+  types     JenisKos 
   kamar     Kamar[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -112,4 +112,10 @@ enum MetodeBayar {
   cash
   transfer
   gateway
+}
+
+enum JenisKos{
+  campur
+  putra
+  putri
 }
