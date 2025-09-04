@@ -3,6 +3,7 @@
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -28,18 +29,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useState } from "react"
 
-// Validasi pakai Zod
+import { toast } from "sonner"
+
 const formSchema = z.object({
   name: z.string().min(2, { message: "Nama kos minimal 2 huruf" }),
   address: z.string().min(5, { message: "Alamat wajib diisi" }),
   city: z.string().min(2, { message: "Kota wajib diisi" }),
-  type: z.enum(["putra", "putri", "campur"])
+  type: z.enum(["putra", "putri", "campur"]),
 })
 
 export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,13 +65,16 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
     if (res.ok) {
       form.reset()
       onSuccess()
+      setOpen(false)
+
+      toast.success("Kos berhasil ditambahkan 🎉")
     } else {
-      alert("Gagal menambahkan kos")
+      toast.error("Gagal menambahkan kos")
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="default">Tambah Kos</Button>
       </DialogTrigger>
@@ -80,7 +85,6 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Nama kos */}
             <FormField
               control={form.control}
               name="name"
@@ -95,7 +99,6 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
               )}
             />
 
-            {/* Alamat */}
             <FormField
               control={form.control}
               name="address"
@@ -110,7 +113,6 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
               )}
             />
 
-            {/* Kota */}
             <FormField
               control={form.control}
               name="city"
@@ -125,7 +127,6 @@ export function AddKosForm({ onSuccess }: { onSuccess: () => void }) {
               )}
             />
 
-            {/* Tipe Kos */}
             <FormField
               control={form.control}
               name="type"

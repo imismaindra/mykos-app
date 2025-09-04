@@ -26,7 +26,8 @@ export async function PATCH(
     where: { uuid: kosuuid },
     data: body,
   });
-  return NextResponse.json(kos);
+  console.log(body);
+    return NextResponse.json(kos);
 }
 export async function DELETE(
   req: Request,

@@ -7,6 +7,7 @@ import "../globals.css";
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -75,6 +76,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <div className="flex flex-1">
         <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
           {children}
+           <Toaster richColors /> {/* aktifkan toast */}
         </div>
       </div>
     </div>
