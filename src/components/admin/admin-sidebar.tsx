@@ -16,35 +16,35 @@ export function AdminSidebar() {
   const links = [
     {
       label: "Dashboard",
-      href: "#",
+      href: "/admin/dashbaord",
       icon: (
         <IconChartBar className="h-8 w-8 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Kosan",
-      href: "#",
+      href: "/admin/kos",
       icon: (
         <IconBuildingSkyscraper className="h-8 w-8 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Penyewa",
-      href: "#",
+      href: "/admin/penyewa",
       icon: (
         <IconUsersGroup className="h-8 w-8 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Sewa",
-      href: "#",
+      href: "/admin/sewa",
       icon: (
         <IconHomeRibbon className="h-8 w-8 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Pembayaran",
-      href: "#",
+      href: "/admin/pembayaran",
       icon: (
         <IconWallet className="h-8 w-8 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
