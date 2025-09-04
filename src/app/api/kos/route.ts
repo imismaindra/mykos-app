@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       name: body.name,
       address: body.address,
       city: body.city,
-      description: body.description,
+      type: body.type,
     },
   });
   return NextResponse.json(kos, { status: 201 });
